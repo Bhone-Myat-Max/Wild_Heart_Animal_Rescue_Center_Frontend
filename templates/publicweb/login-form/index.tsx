@@ -47,7 +47,7 @@ export default function LoginForm() {
             password: values.password
         }).then((response) => {
             if (response?.ok) {
-                router.replace("/dashboard")
+                router.replace("/website")
             }
         })
     }
