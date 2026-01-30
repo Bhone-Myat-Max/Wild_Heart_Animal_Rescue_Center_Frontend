@@ -5,6 +5,6 @@ type HTTPResponse<T> = {
     data: T
 }
 
-interface SearchParams {
-	[key: string]: string
-}
+// interface SearchParams {
+// 	[key: string]: string
+// }

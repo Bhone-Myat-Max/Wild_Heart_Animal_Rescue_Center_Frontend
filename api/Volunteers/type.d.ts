@@ -1,13 +1,18 @@
-type Volunteer = {
-    id?: number,
+
+
+type Volunteers ={
+    id: number,
     name: string,
     skill: string,
-    availability: number,
+    availability: string,
     phone: string,
     status: string,
 }
 
-type VolunteerListResonse = {
-    total: number,
-    data: Volunteer[]
+type VolunteerListResponse ={
+    code: number
+    success: boolean
+    total: number
+    data: Volunteers[]
+     message: string
 }

@@ -19,15 +19,15 @@ instanceWithAuth.interceptors.request.use(async (config) => {
     return config
 })
 
-// instanceWithAuth.interceptors.response.use(async (response) => {
-//     if(response.status == 401){
-//         redirect("/signout")
-//     }
-//     return response
-// }, async (error) => {
-//     if (error.response.status == 401) {
-//         redirect("/signout")
-//     }
-// })
+instanceWithAuth.interceptors.response.use(async (response) => {
+    if(response.status == 401){
+        redirect("/signout")
+    }
+    return response
+}, async (error) => {
+    if (error.response.status == 401) {
+        redirect("/signout")
+    }
+})
 
 export default instance

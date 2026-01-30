@@ -8,7 +8,7 @@ export default async function PublicLayout({
 }>) {
     const session = await getServerSession(authOptions)
     if (session){
-        redirect("/website")
+        redirect("/dashboard")
     }
     return (
         <div>

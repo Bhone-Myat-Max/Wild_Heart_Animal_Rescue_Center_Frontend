@@ -13,8 +13,9 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     const navLinks = [
+        { href: "/home", label: "Home" },
         { href: "#about", label: "About Us" },
-        { href: "#donate", label: "Donate" },
+        { href: "/donation", label: "Donate" },
         { href: "#report", label: "Report Injury" },
         { href: "#stories", label: "Contect Us" },
     ];

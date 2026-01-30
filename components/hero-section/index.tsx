@@ -2,8 +2,11 @@ import heroImg1 from '@/assets/image/Img2.jpg'
 import Image from 'next/image'
 import { Button } from '../ui/button'
 import { ArrowDown } from 'lucide-react'
+import DonationDialog from '@/components/donation-session'
 
 export default function HeroSection () {
+
+   
     return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
