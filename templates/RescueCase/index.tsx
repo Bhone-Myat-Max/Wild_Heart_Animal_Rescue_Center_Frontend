@@ -1,11 +1,17 @@
+
+ 
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Siren, Calendar, User, Phone, ChevronRight, Users } from 'lucide-react'
 import { showDetail } from './action'
 import UserCom from './user'
+import user from '@/api/user'
+import { Button } from '@/components/ui/button'
+import { Assign } from '../Assign/action'
+import toast, { Toaster } from 'react-hot-toast'
 
 // const RescueList = () => {
 //   const router = useRouter()
@@ -116,21 +122,48 @@ type RescuelistProp = {
 
 
 export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
-  console.log(rescueCaseRes);
-  console.log(userRes, 'user');
-  const [detail, setDetail] = useState<RescueCase | null>(null);
+ 
+  const [selectRecuse, setSelectedRescuse] = useState<RescueCase | null>(null);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
+//   [2,3,4,5]
   const showDetail = (item: RescueCase) => {
-    setDetail(item);
+    setSelectedRescuse(item);
   };
 
-  const isSelected = (id: number) => {
-    const user = detail?.users.find((u ) => u.id == id)
-    if (user){
-      return true
+
+  useEffect(() => {
+    if (selectRecuse){
+      const selected: number[] = []
+      selectRecuse.users.map((u) => {
+        if (userRes.find((usr) => usr.id === u.id)){
+          selected.push(u.id);
+        }
+      })
+      setSelectedUserIds(selected);
     }
-    return false
+  }, [selectRecuse]);
+
+
+
+  const isSelected = (id: number) => {
+    return selectedUserIds.find((uid) => uid === id)?  true : false
+ 
   }
 
+  const handleUserClick = (id: number) => {
+    if (isSelected(id)){
+      setSelectedUserIds(selectedUserIds.filter((uid) => uid !== id));
+    }else{
+      setSelectedUserIds([...selectedUserIds, id]);
+    }
+  }
+
+  const sumbit = async() => {
+   if (!selectRecuse) return alert("Select rescue case first")
+
+  await Assign(selectRecuse.id, selectedUserIds)
+  toast.success("Form submitted successfully!");
+  }
   // const detail = showDetail()
   const pending_rescue = rescueCaseRes.filter(v => v.case_status === "Pending");
   return (
@@ -144,20 +177,21 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
           </div>
         ))}
       </div>
-      {detail && (
+      {selectRecuse && (
         <div className="mt-4 p-4 border bg-slate-50 rounded">
-          <h2 className="font-bold">{detail.case_title}</h2>
-          <p>{detail.description}</p>
-          <p>Status: {detail.case_status}</p>
+          <h2 className="font-bold">{selectRecuse.case_title}</h2>
+          <p>{selectRecuse.description}</p>
+          <p>Status: {selectRecuse.case_status}</p>
         </div>
       )}
       <div>
            {userRes.map((ur) => (
-          <UserCom user = {ur} selected = {isSelected(ur.id)}   />
+          <UserCom key={ur.id} user = {ur} selected = {isSelected(ur.id)} onClick={() => handleUserClick(ur.id)}   />
         ))}
       </div>
+       <Button onClick={sumbit}>Comfirm <Toaster position="top-center" reverseOrder={false}/></Button>
     </div>
-    
+   
 
     
   )

@@ -1,7 +1,7 @@
 'use client'
 
 import HeroSection from "@/components/hero-section";
-import DonationForm from "@/components/donation-session"
+import DonationForm from "@/templates/DonatePg"
 import { useRef } from "react";
 export default function page() {
   const donationSectionRef = useRef<HTMLDivElement>(null);
