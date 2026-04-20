@@ -1,4 +1,4 @@
-
+'use server'
 
 import AssigneesAPI from '@/api/Assaignees'
 import { revalidateByPath } from '@/utils/action'

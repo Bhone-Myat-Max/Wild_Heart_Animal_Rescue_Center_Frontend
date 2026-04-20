@@ -9,11 +9,8 @@ export default async function ProductsPage( ) {
     const rescueCaseRes  = await getAll_RescueCase("");
     const userRes  = await getAll_User("");
 
-    console.log("PAGE RescueCase:", rescueCaseRes);
-    console.log("PAGE RescueCase:", userRes);
-
-    return <div className="">
-        <RescueList userRes ={userRes} rescueCaseRes={rescueCaseRes}/>
+    return <div className="bg-gray-50">
+        <RescueList  userRes ={userRes} rescueCaseRes={rescueCaseRes}/>
         
     </div>
 }

@@ -16,12 +16,12 @@ export default function Navbar() {
         { href: "/home", label: "Home" },
         { href: "#about", label: "About Us" },
         { href: "/donation", label: "Donate" },
-        { href: "#report", label: "Report Injury" },
+        { href: "/injury_report", label: "Report Injury" },
         { href: "#stories", label: "Contect Us" },
     ];
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md shadow-soft">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#009966] backdrop-blur-md shadow-lg">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16 md:h-20">
                     {/* Logo */}
@@ -29,7 +29,7 @@ export default function Navbar() {
                         <div className="w-10 h-10 rounded-full bg-gradient-hero flex items-center justify-center">
                             <Heart className="w-5 h-5 text-primary-foreground" />
                         </div>
-                        <span className="font-display text-xl font-bold text-foreground">
+                        <span className="font-serif  text-2xl font-bold  text-white ">
                             WildHeart Rescue
                         </span>
                     </a>
@@ -40,13 +40,13 @@ export default function Navbar() {
                             <a
                                 key={link.href}
                                 href={link.href}
-                                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                                className="text-white hover:text-primary transition-colors font-medium"
                             >
                                 {link.label}
                             </a>
                         ))}
-                        <Button variant="default" className="bg-gradient-warm hover:opacity-90 transition-opacity">
-                            Get Involved
+                        <Button variant="default" className="bg-white text-[#009966] hover:opacity-90 transition-opacity">
+                           Log Out
                         </Button>
                     </div>
 

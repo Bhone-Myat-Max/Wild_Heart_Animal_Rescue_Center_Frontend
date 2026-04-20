@@ -19,12 +19,12 @@ import {
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Volunteers", url: "/volunteers", icon: Users },
-  { title: "Animal", url: "/", icon: Dog },
+  { title: "Animal", url: "/animal", icon: Dog },
   { title: "Rescue Case", url: "/rescuecase", icon: Siren },
-  { title: "Adoption", url: "/calendar", icon: HeartHandshake },
-  { title: "Treatment", url: "/settings", icon: Stethoscope },
-  { title: "Donation", url: "/calendar", icon: HandCoins },
-  { title: "Event", url: "/calendar", icon: CalendarDays },
+  // { title: "Adoption", url: "/calendar", icon: HeartHandshake },
+  // { title: "Treatment", url: "/settings", icon: Stethoscope },
+  { title: "Donation", url: "/donationA", icon: HandCoins },
+  // { title: "Event", url: "/calendar", icon: CalendarDays },
   { title: "User", url: "/calendar", icon: UserCog },
 
 ]
@@ -33,7 +33,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col">
+    <aside className="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col  z-10 sticky top-0">
       <div className="p-6 flex items-center gap-3">
         <div className="p-2 bg-orange-700 rounded-lg text-white">
           <PawPrint size={24} />

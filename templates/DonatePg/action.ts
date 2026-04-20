@@ -18,7 +18,6 @@ export const getAllDonations = async (query: string) => {
 export const showDetail = async (id: number) => {
     try {
         const res = await DonationAPI.detail(id)
-        console.log("SERVICE Pending res.data:", res.data);
         return res.data.data
     } catch (error) {
         console.log(error, 'errr')
@@ -28,8 +27,10 @@ export const showDetail = async (id: number) => {
 
 export const createDonation = async (data: FormData) => {
     try {
-       await DonationAPI.create(data)
+       await DonationAPI.create(data)   
        revalidateByPath("/donations")
+    // console.log([...data.entries()])
+
     } catch (error) {
         console.log(error, "error...")
     }

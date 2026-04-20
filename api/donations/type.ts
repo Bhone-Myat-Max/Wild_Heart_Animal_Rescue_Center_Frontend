@@ -1,10 +1,10 @@
 // ENUM TYPES (match Laravel ENUM)
-// type DonationPurpose =
-//   | "Food & Nutrition"
-//   | "Medical Care"
-//   | "Habitat Construction"
-//   | "General Fund"
-//   | "Other";
+type DonationPurpose =
+  | "Food & Nutrition"
+  | "Medical Care"
+  | "Habitat Construction"
+  | "General Fund"
+  | "Other";
 
 
 
@@ -14,8 +14,8 @@
   email: string;
   phone: string;
   amount: number;
-  purpose: string;
-  image: Text | null; // backend usually stores image path, not File
+  purpose: DonationPurpose;
+  image: string | null; // backend usually stores image path, not File
 };
 
 // type DonationResponse = {

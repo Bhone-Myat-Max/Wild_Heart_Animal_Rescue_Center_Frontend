@@ -13,6 +13,8 @@ export const instanceWithAuth = axios.create({
 
 instanceWithAuth.interceptors.request.use(async (config) => {
     const session = await getServerSession(authOptions)
+    // const session = await getServerSession(authOptions)
+     console.log('Session',session);
     if (session) {
         config.headers.Authorization = `Bearer ` + session.user.accessToken
     }
@@ -23,11 +25,14 @@ instanceWithAuth.interceptors.response.use(async (response) => {
     if(response.status == 401){
         redirect("/signout")
     }
+    // console.log(response);
     return response
 }, async (error) => {
+    // console.log(error, 'error-----');
     if (error.response.status == 401) {
         redirect("/signout")
     }
+    return Promise.reject(error)
 })
 
 export default instance

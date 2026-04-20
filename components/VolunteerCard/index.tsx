@@ -1,4 +1,6 @@
 
+import { Phone } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react';
 // import { Volunteer } from '../types';
 
@@ -13,27 +15,28 @@ console.log(pending_volunteer);
   return (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-indigo-100 flex flex-col h-full">
       <div className="flex items-center gap-4 mb-4">
-        <img 
+        {/* <img 
         //   src={pending_volunteer.avatar} 
           alt={pending_volunteer.name} 
           className="w-12 h-12 rounded-full object-cover ring-2 ring-indigo-50"
-        />
+        /> */}
+        {/* <Image alt='image' src={pending_volunteer.image} unoptimized width={10} height={10} /> */}
         <div className="overflow-hidden">
           <h3 className="text-lg font-semibold text-gray-900 truncate">{pending_volunteer.name}</h3>
-          <p className="text-sm text-gray-500 truncate">{pending_volunteer.email}</p>
+          <p className="text-sm text-black truncate flex"><Phone className='bg-orange-700 text-white rounded-xl p-1 mr-1' size={25}/>{pending_volunteer.phone}</p>
         </div>
       </div>
       
       <div className="flex-grow mb-6">
         <div className="flex items-center gap-2 mb-2">
-          <span className="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full">
+          <span className="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-medium ">
             {pending_volunteer.skill}
           </span>
           <span className="px-2.5 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded-full">
             {pending_volunteer.status}
           </span>
         </div>
-        <p className="text-sm text-gray-600 italic">"I'm eager to contribute my skills to the team and help make a difference."</p>
+        {/* <p className="text-sm text-gray-600 italic">"I'm eager to contribute my skills to the team and help make a difference."</p> */}
       </div>
 
       <button

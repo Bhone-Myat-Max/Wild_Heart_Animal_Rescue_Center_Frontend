@@ -4,6 +4,7 @@ import { Search, Bell, LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import SignOutBtn from '../sign-out-btn'
 import { Spinner } from '../ui/spinner'
+import { useSession } from "next-auth/react"
 
 
 
@@ -17,9 +18,20 @@ export default function Header() {
 //       router.push('/login')
 //     }
 //   }
+// const { data: session, status } = useSession()
+
+// if (status === "loading") return <p>Loading...</p>
+// if (!session?.user) return <p>Not logged in</p>
+
+// console.log(session.user.name)
+ const session = useSession()
+    if (!session.data?.user){
+        return
+    }
+    const { name, email, image, role } = session.data.user
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
+    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm ">
       
       {/* Search Box */}
       <div className="relative w-64">
@@ -48,8 +60,8 @@ export default function Header() {
         {/* User Info */}
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-slate-800">Admin User</p>
-            <p className="text-xs text-slate-500">Super Administrator</p>
+            <p className="text-sm font-semibold text-slate-800">{name}</p>
+            <p className="text-xs text-slate-500">{role}</p>
           </div>
 
           <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
@@ -59,7 +71,6 @@ export default function Header() {
 
         {/* Logout */}
         <SignOutBtn/>
-            <Spinner />
       </div>
     </header>
   )

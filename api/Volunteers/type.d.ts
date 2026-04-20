@@ -7,12 +7,13 @@ type Volunteers ={
     availability: string,
     phone: string,
     status: string,
+    image?: string | null;
 }
 
-type VolunteerListResponse ={
-    code: number
-    success: boolean
-    total: number
-    data: Volunteers[]
-     message: string
-}
+// type VolunteerListResponse ={
+//     code: number
+//     success: boolean
+//     total: number
+//     data: Volunteers[]
+//      message: string
+// }

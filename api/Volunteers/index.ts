@@ -1,9 +1,9 @@
 import { instanceWithAuth as axios } from "@/api"
 import route from '@/api/Volunteers/route'
 export default {
-    all_Pending: (query : string) => axios.get<HTTPResponse<VolunteerListResponse>>('/volunteers/pending' + query),
-    all_accepted: (query : string) => axios.get<HTTPResponse<VolunteerListResponse>>('/volunteers/accepted' + query),
-    // create: ( product : FormData ) => axios.post<HTTPResponse<Product>>(routes.resource, product ),
-    update: ( id :number, volunteer: FormData) => axios.post<HTTPResponse<VolunteerListResponse>>(route.resource + "/" + id + "/status-update", volunteer ),
+    all_Pending: (query : string) => axios.get<HTTPResponse<Volunteers[]>>('/volunteers/pending' + query),
+    all_accepted: (query : string) => axios.get<HTTPResponse<Volunteers[]>>('/volunteers/accepted' + query),
+    create: ( data : FormData ) => axios.post<HTTPResponse<Volunteers[]>>(route.resource, data ),
+    update: ( id :number, data: FormData) => axios.post<HTTPResponse<Volunteers[]>>(route.resource + "/" + id + "/status-update", data ),
     // delete: (id : number) => axios.delete<HTTPResponse<Product>>(routes.resource + "/" + id )
 }
