@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
           const result = await authAPI.login({ email: credentials?.email!, password: credentials?.password! })
           const user: User = result.data.data
           if (user) {
-             console.log(user);
+            //  console.log(user);
             return user
            
           } else {

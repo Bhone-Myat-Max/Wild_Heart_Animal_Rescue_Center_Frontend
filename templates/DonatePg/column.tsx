@@ -30,6 +30,10 @@ export const columns: ColumnDef<Donation>[] = [
         accessorKey: "amount",
         header: "Amount",
     },
+    {
+        accessorKey: "purpose",
+        header: "Purpose",
+    },
     // {
     //     accessorKey: "image",
     //     header: "Image",

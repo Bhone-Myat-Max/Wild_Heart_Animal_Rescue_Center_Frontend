@@ -1,21 +1,25 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import AnimalTemplate from "@/templates/Animal";
 import { getAllAnimal } from "@/templates/Animal/action";
+import { getAll_RescueCase } from "@/templates/RescueCase/action";
 import { getServerSession } from "next-auth";
+import RescueCaseAPI from '@/api/rescuecase'
 
 export default async function AnimalPage( ) {
     const animal = await getAllAnimal("");
-    console.log(animal);
+    const rescueases = await RescueCaseAPI.all()
+    
+    // console.log(animal);
 
      const session = await getServerSession(authOptions)
-     console.log('Session',session?.user.role);
+    //  console.log('Session',session?.user.role);
 
     // if (session && session.user.role != 'admin'){
     //     return <></>
     // }
     // const accepted_volunteers = await getAll_AcceptedVolunteer("");
     return <div className="">
-        <AnimalTemplate animal={animal} />
+        <AnimalTemplate animal={animal} rescueCase={rescueases.data.data} />
         
     </div>
 }

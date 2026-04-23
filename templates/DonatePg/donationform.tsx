@@ -38,28 +38,26 @@ import { useState } from "react"
 import { Form } from "@/components/ui/form"
 import ImageUpolad from "@/components/image-upload"
 import { createDonation } from "./action";
+import { Spinner } from "@/components/ui/spinner";
 
 const formSchema = z.object({
-  // name_2000103917: z.string().min(1),
-  // name_0392522672: z.string().min(1),
-  // name_2585653882: z.string().min(1),
-  // name_1027238936: z.string(),
-  // name_9060257964: z.string(),
+ 
   name: z.string().min(1, "Name is required"),
   phone: z.string().min(1, "Phone is required"),
   file: z.any(),
   email: z.string().email("Invalid email format"),
-  amount: z.number().min(1, "Amount is required"), 
+  amount: z.number().min(1, "Amount is required"),
   purpose: z.string()
 });
 let notify;
 
 export default function DonationForm() {
-  
+
 
   const [files, setFiles] = useState<File[] | null>(null);
   // const [image, setImage ] = useState<string>()
   const [preview, setPreview] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -88,6 +86,7 @@ export default function DonationForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setLoading(true)
       const data = new FormData()
 
       data.append("name", values.name)
@@ -101,25 +100,18 @@ export default function DonationForm() {
       }
 
       await createDonation(data)
+      setLoading(false)
       toast.success("Form submitted successfully!");
 
       form.reset()
 
     } catch (error) {
+      setLoading(false)
       console.error(error)
       toast.error("Failed to submit the form")
     }
   }
 
-  //  useEffect(() => {
-  //       form.reset({
-  //           name: product?.name ?? "",
-  //           description: product?.description ?? "",
-  //           price: product?.price ?? 0,
-  //           category: product?.category_id ?? 0,
-  //           status: product?.status === "Active" ? true : false,
-  //       })
-  //   }, [product])
 
   return (
 
@@ -251,11 +243,8 @@ export default function DonationForm() {
         </Field>
 
 
-        <Button type="submit" onClick={notify}>Submit</Button>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-        />
+        <Button type="submit" disabled={loading}> {loading && <Spinner />}Submit</Button>
+
       </form>
     </Form>
   )

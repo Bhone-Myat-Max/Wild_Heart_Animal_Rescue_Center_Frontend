@@ -9,7 +9,7 @@ import { getAll_User } from "@/templates/User/action";
 
 export default async function ProductsPage( ) {
     const donation = await getAllDonations("");
-console.log(donation);
+// console.log(donation);
     
     return <div className="bg-gray-50">
         {/* <RescueList  userRes ={userRes} rescueCaseRes={rescueCaseRes}/> */}

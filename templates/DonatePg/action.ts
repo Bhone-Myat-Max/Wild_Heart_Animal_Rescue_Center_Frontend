@@ -27,9 +27,10 @@ export const showDetail = async (id: number) => {
 
 export const createDonation = async (data: FormData) => {
     try {
+        console.log(data);
        await DonationAPI.create(data)   
        revalidateByPath("/donations")
-    // console.log([...data.entries()])
+    // console.log('data',[...data.entries()])
 
     } catch (error) {
         console.log(error, "error...")

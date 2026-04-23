@@ -30,7 +30,7 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
-  console.log("donation", data);
+  // console.log("donation", data);
 
   return (
     <div className="overflow-hidden rounded-md border">

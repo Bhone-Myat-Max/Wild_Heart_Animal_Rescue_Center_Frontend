@@ -13,9 +13,11 @@ type DonationPurpose =
   name: string;
   email: string;
   phone: string;
+  rescue_mission_id?: number;
   amount: number;
   purpose: DonationPurpose;
   image: string | null; // backend usually stores image path, not File
+  rescue_mission?: RescueMission;
 };
 
 // type DonationResponse = {

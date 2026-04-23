@@ -1,69 +1,105 @@
-
 'use client'
 
-import { useState } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Menu, X } from "lucide-react";
-import { Button } from "../ui/button";
-
-
+import { useState } from "react"
+import { Heart, Menu, X } from "lucide-react"
+import { Button } from "../ui/button"
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
 
-    const [isOpen, setIsOpen] = useState(false);
+  const navLinks = [
+    { href: "/home", label: "Home" },
+    { href: "#about", label: "About Us" },
+    { href: "/donation", label: "Donate" },
+    { href: "/injury_report", label: "Report Injury" },
+    { href: "#contact", label: "Contact Us" },
+  ]
 
-    const navLinks = [
-        { href: "/home", label: "Home" },
-        { href: "#about", label: "About Us" },
-        { href: "/donation", label: "Donate" },
-        { href: "/injury_report", label: "Report Injury" },
-        { href: "#stories", label: "Contect Us" },
-    ];
+  return (
+    // <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+    //   <div className="max-w-7xl mx-auto px-6">
+    //     <div className="flex items-center justify-between h-20">
 
-    return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#009966] backdrop-blur-md shadow-lg">
-            <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Logo */}
-                    <a href="#" className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-gradient-hero flex items-center justify-center">
-                            <Heart className="w-5 h-5 text-primary-foreground" />
-                        </div>
-                        <span className="font-serif  text-2xl font-bold  text-white ">
-                            WildHeart Rescue
-                        </span>
-                    </a>
+    //       {/* 🔥 Logo */}
+    //       <div className="flex items-center gap-3">
+    //         <div className="w-11 h-11 rounded-full bg-emerald-600 flex items-center justify-center shadow-md">
+    //           <Heart className="w-5 h-5 text-white" />
+    //         </div>
+    //         <div>
+    //           <h1 className="text-xl font-extrabold text-gray-900">
+    //             WildHeart
+    //           </h1>
+    //           <p className="text-xs text-gray-500 -mt-1">
+    //             Rescue Center
+    //           </p>
+    //         </div>
+    //       </div>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-8">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                className="text-white hover:text-primary transition-colors font-medium"
-                            >
-                                {link.label}
-                            </a>
-                        ))}
-                        <Button variant="default" className="bg-white text-[#009966] hover:opacity-90 transition-opacity">
-                           Log Out
-                        </Button>
-                    </div>
+    //       {/* Desktop */}
+    //       <div className="hidden md:flex items-center gap-10">
+    //         {navLinks.map((link) => (
+    //           <a
+    //             key={link.href}
+    //             href={link.href}
+    //             className="text-gray-700 text-base font-semibold hover:text-emerald-600 transition"
+    //           >
+    //             {link.label}
+    //           </a>
+    //         ))}
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden p-2 text-foreground"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
-                </div>
-            </div>
+    //         <Button className="bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-emerald-700">
+    //           Log Out
+    //         </Button>
+    //       </div>
 
-            {/* Mobile Navigation */}
-        </nav>
-    )
+    //       {/* Mobile */}
+    //       <button
+    //         className="md:hidden"
+    //         onClick={() => setIsOpen(!isOpen)}
+    //       >
+    //         {isOpen ? <X /> : <Menu />}
+    //       </button>
+    //     </div>
+    //   </div>
+    // </nav>
 
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="flex items-center justify-between h-20">
 
+      {/* Logo */}
+      <div className="flex items-center gap-3">
+        <div className="w-11 h-11 rounded-full bg-emerald-600 flex items-center justify-center shadow-md">
+          <Heart className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h1 className="text-xl font-extrabold text-white">
+            WildHeart
+          </h1>
+          <p className="text-xs text-gray-200 -mt-1">
+            Rescue Center
+          </p>
+        </div>
+      </div>
 
+      {/* Desktop */}
+      <div className="hidden md:flex items-center gap-10">
+        {navLinks.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            className="text-white text-base font-semibold hover:text-emerald-300 transition"
+          >
+            {link.label}
+          </a>
+        ))}
+
+        {/* <Button className="bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-emerald-700">
+          Log Out
+        </Button> */}
+      </div>
+    </div>
+  </div>
+</nav>
+  )
 }

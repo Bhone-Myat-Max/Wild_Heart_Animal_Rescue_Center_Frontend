@@ -11,6 +11,6 @@ export default function SignOutBtn() {
 
     
     return (
-        <Button className="bg-orange-600" disabled={loading} onClick={ () => signOut()}>{ loading && <Spinner/> }Sign-Out</Button>
+        <Button className="bg-orange-600 hover:bg-orange-700" disabled={loading} onClick={ () => signOut()}>{ loading && <Spinner/> }Sign-Out</Button>
     )
 }

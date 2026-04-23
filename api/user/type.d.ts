@@ -13,4 +13,5 @@
   availability_status: AvailabilityStatus;
   created_at?: string;
   updated_at?: string;
+  
 }

@@ -14,7 +14,7 @@ export const instanceWithAuth = axios.create({
 instanceWithAuth.interceptors.request.use(async (config) => {
     const session = await getServerSession(authOptions)
     // const session = await getServerSession(authOptions)
-     console.log('Session',session);
+    //  console.log('Session',session);
     if (session) {
         config.headers.Authorization = `Bearer ` + session.user.accessToken
     }
@@ -36,3 +36,51 @@ instanceWithAuth.interceptors.response.use(async (response) => {
 })
 
 export default instance
+
+
+
+
+
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import axios from "axios";
+// import { getServerSession } from "next-auth";
+// import { getSession } from "next-auth/react";
+// import { redirect } from "next/navigation";
+
+// const instance = axios.create({
+//     baseURL: process.env.BASE_URL + "/api"
+// })
+
+// export const instanceWithAuth = axios.create({
+//     baseURL: process.env.BASE_URL + "/api"
+// })
+
+
+
+// instanceWithAuth.interceptors.request.use(async (config) => {
+//     const session = await getSession()
+//     // const session = await getServerSession(authOptions)
+//     //  console.log('Session',session);
+//     if (session) {
+//         config.headers.Authorization = `Bearer ` + session.user.accessToken
+//     }
+
+//     console.log(config);
+//     return config
+// })
+
+// instanceWithAuth.interceptors.response.use(async (response) => {
+//     if(response.status == 401){
+//         redirect("/signout")
+//     }
+//     // console.log(response);
+//     return response
+// }, async (error) => {
+//     console.log(error, 'error-----');
+//     if (error.response.status == 401) {
+//         redirect("/signout")
+//     }
+//     return Promise.reject(error)
+// })
+
+// export default instance

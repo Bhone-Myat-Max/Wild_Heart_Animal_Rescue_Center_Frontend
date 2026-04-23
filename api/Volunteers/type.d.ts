@@ -6,9 +6,12 @@ type Volunteers ={
     skill: string,
     availability: string,
     phone: string,
-    status: string,
+    status: CaseStatus,
     image?: string | null;
 }
+
+type CaseStatus = 'Pending'| 'Accepted';
+
 
 // type VolunteerListResponse ={
 //     code: number

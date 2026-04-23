@@ -42,13 +42,13 @@ export default function DashboardTemplate({ donation }: DonationProp) {
     0
   )
   const foodFound = donation.filter(d => d.purpose === "Food & Nutrition");
-
+  console.log('FoodFund',foodFound);
   const totalfoodDonation = foodFound.reduce(
     (sum, d) => sum + Number(d.amount),
     0
   )
-  const MedicalCare = donation.filter(d => d.purpose === "Food & Nutrition");
-
+  const MedicalCare = donation.filter(d => d.purpose === "Medical Care");
+  console.log('Medical',MedicalCare);
   const totalMedicalCare = MedicalCare.reduce(
     (sum, d) => sum + Number(d.amount),
     0
@@ -69,7 +69,7 @@ export default function DashboardTemplate({ donation }: DonationProp) {
 
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-500 p-4 md:p-8">
       <header className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Financial Donations</h1>

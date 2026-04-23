@@ -22,6 +22,7 @@ import {
 import { useState } from "react"
 import { Form } from "@/components/ui/form"
 import { createVolunteer } from "./actions";
+import { Spinner } from "@/components/ui/spinner";
 // Assuming you have a volunteer action now
 // import { createVolunteer } from "./action"; 
 
@@ -30,17 +31,16 @@ const formSchema = z.object({
   phone: z.string().min(1, "Phone is required"),
   skill: z.string().min(1, "Please specify your skill"),
   availability: z.string().min(1, "Availability is required"),
-  status: z.string(),
   file: z.any().optional(),
 });
 
 export default function VolunteerForm() {
   const [preview, setPreview] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      status: "pending",
       availability: "Full-time",
     },
   })
@@ -56,23 +56,25 @@ export default function VolunteerForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setLoading(true)
       const data = new FormData()
       data.append("name", values.name)
       data.append("phone", values.phone)
       data.append("skill", values.skill)
       data.append("availability", values.availability)
-      data.append("status", values.status)
 
       if (values.file) {
         data.append("image", values.file)
       }
 
       await createVolunteer(data) // Call your volunteer action here
-    //    console.log([...data.entries()])
+      //    console.log([...data.entries()])
+        setLoading(false)
       toast.success("Volunteer application submitted!");
       form.reset()
       setPreview(null)
     } catch (error) {
+       setLoading(false)
       console.error(error)
       toast.error("Failed to submit application")
     }
@@ -80,14 +82,15 @@ export default function VolunteerForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10 mt-25">
-        
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto my-5 p-10 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+
         <div className="grid grid-cols-12 gap-4">
           {/* NAME */}
           <div className="col-span-6">
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" placeholder="John Doe" {...form.register("name")} />
+              <Input id="name" placeholder="Name..." {...form.register("name")} />
+              <FieldDescription>Fill Your Name</FieldDescription>
               <FieldError>{form.formState.errors.name?.message}</FieldError>
             </Field>
           </div>
@@ -97,6 +100,7 @@ export default function VolunteerForm() {
             <Field>
               <FieldLabel htmlFor="phone">Phone Number</FieldLabel>
               <Input id="phone" placeholder="09..." {...form.register("phone")} />
+              <FieldDescription>Fill Phone Number</FieldDescription>
               <FieldError>{form.formState.errors.phone?.message}</FieldError>
             </Field>
           </div>
@@ -105,10 +109,10 @@ export default function VolunteerForm() {
         {/* SKILL */}
         <Field>
           <FieldLabel htmlFor="skill">Special Skills</FieldLabel>
-          <Input 
-            id="skill" 
-            placeholder="e.g. Veterinary, Animal Handling, Photography" 
-            {...form.register("skill")} 
+          <Input
+            id="skill"
+            placeholder="e.g. Veterinary, Animal Handling, Photography"
+            {...form.register("skill")}
           />
           <FieldDescription>Let us know how you can help.</FieldDescription>
           <FieldError>{form.formState.errors.skill?.message}</FieldError>
@@ -143,14 +147,17 @@ export default function VolunteerForm() {
               {preview ? (
                 <img src={preview} className="h-40 rounded-lg shadow object-cover" alt="Preview" />
               ) : (
-                <div className="text-gray-500 text-sm">Click to upload profile picture</div>
+                <>
+                  <div className="text-gray-500 text-sm">Click to upload or drag and drop</div>
+                  <div className="text-xs text-muted-foreground">PNG, JPG, GIF (max 4MB)</div>
+                </>
               )}
             </label>
           </div>
         </Field>
 
-        <Button type="submit" className="w-full">Apply to Volunteer</Button>
-        <Toaster position="top-center" />
+        <Button type="submit" className="w-full"  disabled={loading}> {loading && <Spinner />}Apply to Volunteer</Button>
+
       </form>
     </Form>
   )

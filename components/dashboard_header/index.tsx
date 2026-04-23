@@ -58,19 +58,7 @@ export default function Header() {
         <div className="h-8 w-px bg-slate-200 mx-2" />
 
         {/* User Info */}
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-slate-800">{name}</p>
-            <p className="text-xs text-slate-500">{role}</p>
-          </div>
-
-          <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-            AU
-          </div>
-        </div>
-
-        {/* Logout */}
-        <SignOutBtn/>
+        
       </div>
     </header>
   )

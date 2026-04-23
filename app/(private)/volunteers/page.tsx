@@ -1,3 +1,4 @@
+import HeroSection from "@/components/hero-section";
 import VolunteersTemplate from "@/templates/Volunteers";
 import { getAll_PendingVolunteer } from "@/templates/Volunteers/actions";
 import { getAll_AcceptedVolunteer } from "@/templates/Volunteers/actions";
