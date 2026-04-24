@@ -26,7 +26,7 @@ import { MoreHorizontalIcon } from "lucide-react"
 import { deleteAnimal } from "./action";
 // import { Animaltable, VolunteerTable } from '@/components/VolunteerTable';
 // import { updateVolunteer } from "./actions"; 
-const rescueCase = await getAll_RescueCase("")
+const rescueCase = await getAll_RescueCase('')
 type AnimalTemplateProp = {
   animal: Animal[]
   rescueCase: RescueCase[]
@@ -39,84 +39,109 @@ type AnimalTemplateProp = {
 
 // import { deleteProduct } from "./actions"
 
- const columns: ColumnDef<Animal>[] = [
-    {
-        accessorKey: "tagcode",
-        header: "Tagcode",
+const columns: ColumnDef<Animal>[] = [
+  {
+    accessorKey: "tagcode",
+    header: "Tagcode",
+  },
+  {
+    accessorKey: "image",
+    header: "Image",
+    cell: ({ row }) => {
+      const img = row.original.image
+
+      return (
+        <Image
+          src={img || "/placeholder.png"}
+          alt="animal"
+          width={50}
+          height={50}
+          className="rounded-lg object-cover"
+          unoptimized
+        />
+      )
     },
-    {
-        accessorKey: "image",
-        header: "Image",
+  },
+  {
+    accessorKey: "species",
+    header: "Species",
+  },
+  {
+    accessorKey: "gender",
+    header: "Gender",
+  },
+  {
+    accessorKey: "health_status",
+    header: "Condition",
+  },
+  {
+    accessorKey: "current_status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.current_status
+
+      const color =
+        status === "rescued"
+          ? "bg-green-100 text-green-700"
+          : status === "under_treatment"
+            ? "bg-amber-100 text-amber-700"
+            : "bg-gray-100 text-gray-700"
+
+      return (
+        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
+          {status}
+        </span>
+      )
     },
-    {
-        accessorKey: "species",
-        header: "Species",
+  },
+  {
+    id: "action",
+    header: "Actions",
+    cell: ({ row }) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="size-8">
+              <MoreHorizontalIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => deleteAnimal(row.original.id)}
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
     },
-    {
-        accessorKey: "gender",
-        header: "Gender",
-    },
-    {
-        accessorKey: "health_status",
-        header: "Condition",
-    },
-    // {
-    //     accessorKey: "current_status",
-    //     header: "Rescue",
-    // },
-    // {
-    //     accessorKey: "image",
-    //     header: "Image",
-    //     cell: ({ row }) => {
-    //         return <Image src={row.original.image} alt="cat_img" width={50} height={50} unoptimized/>
-    //     }
-    // },
-    // {
-    //     accessorKey: "phone",
-    //     header: "Phone",
-    // },
-    // {
-    //     accessorKey: "status",
-    //     header: "Status",
-    //     cell: ({ row }) => {
-    //         return <div className={row.original.status == "Active" ? "text-green-400" : "text-gray-800"} >{row.original.status}</div>
-    //     }
-    // },
-    {
-        accessorKey: "action",
-        header: "Actions",
-        cell: ({ row }) => {
-            // const { setOpen, setDonation } = useDonationDialogStore()
-            return <div>
-                 {/* <Button onClick={() => { setProduct(row.original); setOpen(true); }}>Edit</Button>
-                 <Button onClick={() => deleteProduct(row.original.id!)}>Delete</Button> */}
-                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="size-8">
-                      <MoreHorizontalIcon />
-                      {/* <span className="sr-only">Open menu</span> */}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem >Edit</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem variant="destructive" onClick={()=>deleteAnimal} >
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        }
-    },
+  },
 ]
 
 export default function AnimalTemplate({ animal, rescueCase }: AnimalTemplateProp) {
+  const CompleteRC = rescueCase.filter(rc => rc.case_status === "Completed");
   const rescuedanimal = animal.filter(a => a.current_status === "rescued");
   const under_treatment = animal.filter(a => a.current_status === "under_treatment");
 
-  console.log("Animal",animal);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filter, setFilter] = useState<"All" | "rescued" | "under_treatment" | "Adopted">("All")
+
+  const filteredAnimals = animal.filter((a) => {
+    const matchesSearch =
+      a.species.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      a.tagcode.toLowerCase().includes(searchTerm.toLowerCase())
+
+    const matchesFilter =
+      filter === "All" || a.current_status === filter
+
+    return matchesSearch && matchesFilter
+  })
+  console.log("Animal", animal);
   return (
-    <div className=" bg-gray-50 pb-20">
+    <div className="  pb-20 p-4 md:p-8">
       {/* Header */}
 
 
@@ -128,8 +153,7 @@ export default function AnimalTemplate({ animal, rescueCase }: AnimalTemplatePro
         </section> */}
         <div className="flex items-center justify-between mb-8 bg-white">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900"> Animals</h2>
-            <p className="text-gray-500 text-sm mt-1">View and manage Animal Informations.</p>
+            <h2 className="text-2xl font-bold text-gray-900"> Animal Form</h2>
           </div>
           <div className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">
             {animal.length} Active
@@ -140,13 +164,46 @@ export default function AnimalTemplate({ animal, rescueCase }: AnimalTemplatePro
         <section className="bg-white ">
 
           <div >
-            <AnimalForm rescueCasesdata={rescueCase} />
+            <AnimalForm rescueCasesdata={CompleteRC} />
           </div>
+
+
+          <h2 className="text-2xl font-bold text-gray-900">Animal List</h2>
+          <p className="text-gray-500 text-sm mt-4 mb-10 ">View and manage Animal Informations.</p>
+
           {/* <div className="mt-5">
             <Animaltable animals={animal} />
           </div> */}
+          <div className="mb-6 space-y-4 flex justify-between mt-6">
+            {/* Filter Buttons */}
+            <div className="flex gap-2">
+              {["All", "rescued", "under_treatment", "Adopted"].map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setFilter(status as any)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium ${filter === status
+                    ? "bg-orange-500 text-white"
+                    : "bg-white border text-gray-600"
+                    }`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+            {/* Search */}
+            <div className="relative w-full md:w-72">
+              <input
+                type="text"
+                placeholder="Search by species or tag..."
+                className="w-full pl-4 pr-4 py-2 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
 
-          <DataTable columns={columns} data={animal}/>
+
+          </div>
+
+          <DataTable columns={columns} data={filteredAnimals} />
 
 
 
@@ -159,22 +216,7 @@ export default function AnimalTemplate({ animal, rescueCase }: AnimalTemplatePro
       </main>
 
       {/* Footer / Stats sticky bar */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-gray-200 py-3 shadow-lg z-10">
-        <div className="max-w-7xl mx-auto px-4 flex justify-center gap-8 text-sm font-medium text-gray-600">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
-            <span>Total: {animal.length}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-            <span>Rescued: {rescuedanimal.length}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>under_treatment: {under_treatment.length}</span>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   );
 

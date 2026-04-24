@@ -41,7 +41,7 @@ import { createDonation } from "./action";
 import { Spinner } from "@/components/ui/spinner";
 
 const formSchema = z.object({
- 
+
   name: z.string().min(1, "Name is required"),
   phone: z.string().min(1, "Phone is required"),
   file: z.any(),
@@ -75,6 +75,10 @@ export default function DonationForm() {
     maxSize: 1024 * 1024 * 4,
     multiple: true,
   };
+  const handleReset = () => {
+    form.reset()
+    setPreview(null)
+  }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -243,7 +247,11 @@ export default function DonationForm() {
         </Field>
 
 
-        <Button type="submit" disabled={loading}> {loading && <Spinner />}Submit</Button>
+        <div className="flex justify-between">
+          <Button type="button" variant="ghost" onClick={handleReset}> Cancel</Button>
+          <Button type="submit" onClick={ ()=>setPreview(null)} disabled={loading}> {loading && <Spinner />}Submit</Button>
+        </div>
+
 
       </form>
     </Form>

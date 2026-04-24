@@ -64,7 +64,6 @@ export default function InjuryReportForm() {
   return (
     <div className="mt-14 ">
 
-      <div className="text-center mb-10 "><h1 className="text-4xl ">Report Injuried Animal</h1></div>
 
 
 
@@ -130,7 +129,7 @@ export default function InjuryReportForm() {
 
                   {...form.register("location")}
                 />
-                <FieldDescription>This is your public display name.</FieldDescription>
+                <FieldDescription>Please fill location Case happen.</FieldDescription>
                 <FieldError>{form.formState.errors.location?.message}</FieldError>
               </Field>
             </div>
@@ -173,7 +172,7 @@ export default function InjuryReportForm() {
                 placeholder="Describe the situation..."
                 {...form.register("description")}
               />
-              <FieldDescription>This is your public display name.</FieldDescription>
+              <FieldDescription>If there description. Let us know</FieldDescription>
               <FieldError>{form.formState.errors.description?.message}</FieldError>
             </Field>
           </div>

@@ -1,5 +1,6 @@
 'use client'
 import HeroSection from "@/components/hero-section";
+import VolunteerFooter from "@/templates/footer-volunteer";
 import InjuryReportForm from "@/templates/InjuryReportForm";
 import { useRef } from "react";
 
@@ -31,6 +32,7 @@ export default function ReportPage() {
           </div>
         </section>
       </div>
+      <VolunteerFooter/>
     </div>
 
   );

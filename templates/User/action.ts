@@ -1,6 +1,8 @@
+"use server"
 
 
 import UserAPI from '@/api/user'
+import { revalidateByPath } from '@/utils/action'
 
 
 
@@ -12,6 +14,26 @@ export const getAll_User = async (query: string) => {
     } catch (error) {
         console.log(error, 'errr')
         return []
+    }
+}
+export const UpdateProfile = async (data: FormData) => { 
+    try {
+        console.log(data);
+        const res = await UserAPI.updateProfile(data)
+
+        // optional: check backend success flag
+        if (!res.data.success) {
+            throw new Error(res.data.message || "Update failed")
+        }
+
+        return res.data.data
+    } catch (error: any) {
+        console.log(error, 'errr')
+
+        // 🔥 THROW instead of return
+        throw new Error(
+            error?.response?.data?.message || "Update failed"
+        )
     }
 }
 
@@ -41,14 +63,22 @@ export const getAll_User = async (query: string) => {
 //     }
 // }
 
-// export const createProduct = async (data: FormData) => {
-//     try {
-//        await productAPI.create(data)
-//        revalidateByPath("/products")
-//     } catch (error) {
-//         console.log(error, "error...")
-//     }
-// }
+export const createUser = async (data: FormData) => {
+  try {
+    const res = await UserAPI.create(data)
+
+    if (!res.data.success) {
+      throw new Error(res.data.message || "Create failed")
+    }
+
+    return res.data
+
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message || "Create failed"
+    )
+  }
+}
 
 // export const deleteProduct = async (id: number) => {
 //     try {

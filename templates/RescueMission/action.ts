@@ -29,7 +29,7 @@ export const UpdateMission = async (id: number, data: FormData) => {
     }
 }
 
-export const deleteAnimal = async (id: number) => {
+export const DeleteMission = async (id: number) => {
     try {
         await MissionAPI.delete(id)
         revalidateByPath("/Mission")

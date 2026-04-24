@@ -76,6 +76,7 @@ export default function AnimalForm({ rescueCasesdata, animal }: RescueCaseProp) 
             }
             setOpen(false)
             form.reset()
+            setPreview(null)
         } catch (error) {
             toast.error("Failed to save animal")
         } finally {

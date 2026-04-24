@@ -30,9 +30,10 @@ type DonationProp = {
   volunteer: Volunteers[]
   donation: Donation[]
   rescue_case: RescueCase[]
+  rescueMission: RescueMission[]
 }
 
-export default function Dashboard({ volunteer, donation, rescue_case }: DonationProp) {
+export default function Dashboard({ volunteer, donation, rescue_case, rescueMission }: DonationProp) {
 
   const totalVolunteer = volunteer.length
 
@@ -41,6 +42,7 @@ export default function Dashboard({ volunteer, donation, rescue_case }: Donation
     0
   )
   const pending_rescue = rescue_case.filter(rc => rc.case_status === "Pending");
+  const activeMissions= rescueMission.filter(rm => rm.status === "active");
 
   return (
     <div className="space-y-8">
@@ -50,13 +52,14 @@ export default function Dashboard({ volunteer, donation, rescue_case }: Donation
         <StatCard title="Volunteers" value={totalVolunteer} icon={<Users size={24} />} />
         <StatCard title="Total Donations" value={`$${totalDonation}`} icon={<HandCoins size={24} />} />
         <StatCard title="Pending Rescues" value={pending_rescue.length} icon={<HeartPulse size={24} />} />
+        <StatCard title="Rescue Missions" value={activeMissions.length} icon={<HeartPulse size={24} />} />
       </div>
       
       {/* Recent Donations */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
        <div className='flex flex-2 justify-between'>
          <h3 className="text-lg font-bold text-slate-800 mb-8">Recent Donations</h3>
-         <Button className=''>View</Button>
+         {/* <Button className=''>View</Button> */}
        </div>
 
         <div className="space-y-6">

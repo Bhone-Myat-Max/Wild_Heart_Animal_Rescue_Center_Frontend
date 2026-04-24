@@ -1,9 +1,12 @@
+'use client'
 import { getAllAnimal } from "@/templates/Animal/action";
-
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 // }
-const animal = await getAllAnimal("");
 
-export default function HeroSection() {
+export default  function HeroSection() {
+
+  const router = useRouter()
   return (
     <section className="relative min-h-screen flex items-center">
 
@@ -37,7 +40,9 @@ export default function HeroSection() {
           </p>
 
           <div className="mt-8 flex gap-4">
-            <button className="px-6 py-3 bg-gray-900 text-white rounded-lg font-bold hover:bg-black">
+            <button
+            onClick={()=>router.push("/donation")}
+             className="px-6 py-3 bg-gray-900 text-white rounded-lg font-bold hover:bg-black">
               Donate Now
             </button>
             <button className="px-6 py-3 border border-emerald-200 text-emerald-700 rounded-lg font-bold hover:bg-emerald-50">

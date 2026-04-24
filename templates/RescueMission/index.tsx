@@ -16,6 +16,7 @@ import {
 import { DataTable } from '@/components/data-table'
 import { Siren, Calendar, User, Phone, ChevronRight, Users, Filter, Clock, MapPin, Eye, Edit, Delete, Trash2, Trash, ShieldAlert, MoreHorizontalIcon, Plus } from 'lucide-react'
 import { useState } from "react"
+import { DeleteMission } from "./action"
 
 
 type MissionProp = {
@@ -38,15 +39,41 @@ export default function RescueMissionTemplate({ mission }: MissionProp) {
     }
 
     // Helper to open for Edit
-    const handleEdit = (rescue: any) => {
-        setSelectedRescue(rescue)
+    const handleEdit = (mission: any) => {
+        setSelectedRescue(mission)
         setIsDialogOpen(true)
     }
 
-    const columns: ColumnDef<any>[] = [
-        { accessorKey: "id", header: "ID" },
+    const columns: ColumnDef<RescueMission>[] = [
+        // { accessorKey: "id", header: "ID" },
+        {
+            accessorKey: "image",
+            header: "Image",
+            cell: ({ row }) => {
+                const img = row.original.image_url
+
+                return (
+                    <Image
+                        src={img || "/placeholder.png"}
+                        alt="animal"
+                        width={50}
+                        height={50}
+                        className="rounded-lg object-cover"
+                        unoptimized
+                    />
+                )
+            },
+        },
         { accessorKey: "title", header: "title" },
-        { accessorKey: "description", header: "description" },
+        {
+            accessorKey: "description",
+            header: "Description",
+            cell: ({ row }) => (
+                <div className="max-w-62.5 truncate" title={row.original.description}>
+                    {row.original.description}
+                </div>
+            ),
+        },
         { accessorKey: "category", header: "category" },
         { accessorKey: "target_amount", header: "Target Donation" },
         {
@@ -62,7 +89,7 @@ export default function RescueMissionTemplate({ mission }: MissionProp) {
             id: "action",
             header: "Actions",
             cell: ({ row }) => {
-                const rescue = row.original
+                const mission = row.original
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -71,17 +98,17 @@ export default function RescueMissionTemplate({ mission }: MissionProp) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="rounded-xl border-slate-100 shadow-xl">
-                            <DropdownMenuItem onClick={() => console.log("View", rescue)}>
+                            {/* <DropdownMenuItem onClick={() => console.log("View", mission)}>
                                 <Eye className="mr-2 size-4" /> View
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
 
                             {/* ✏️ CONNECTED EDIT ACTION */}
-                            <DropdownMenuItem onClick={() => handleEdit(rescue)}>
+                            <DropdownMenuItem onClick={() => handleEdit(mission)}>
                                 <Edit className="mr-2 size-4" /> Edit
                             </DropdownMenuItem>
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem variant="destructive">
+                            <DropdownMenuItem variant="destructive" onClick={() => DeleteMission(mission.id)}>
                                 <Trash className="mr-2 size-4" /> Delete
                             </DropdownMenuItem>
                         </DropdownMenuContent>

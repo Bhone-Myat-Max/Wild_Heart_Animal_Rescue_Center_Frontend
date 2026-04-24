@@ -5,6 +5,7 @@ import DonationForm from "@/templates/DonatePg"
 import RescueMissionAPI from '@/api/rescueMission'
 import DonationAPI from '@/api/donations'
 import DonationTemplate from "@/templates/DonatePg";
+import VolunteerFooter from "@/templates/footer-volunteer";
 
 
 export default async function page() {
@@ -26,7 +27,8 @@ export default async function page() {
 
   return <div>
     <HeroSection/>
-          <DonationTemplate rescueMissions={rescueMission.data.data}/>
+          <DonationTemplate Missions={rescueMission.data.data} donation={donation.data.data}/>
+          <VolunteerFooter/>
   </div>
   
 }

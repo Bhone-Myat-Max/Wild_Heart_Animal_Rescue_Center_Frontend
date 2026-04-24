@@ -1,4 +1,5 @@
 import HeroSection from "@/components/hero-section";
+import VolunteerFooter from "@/templates/footer-volunteer";
 import VolunteerForm from "@/templates/Volunteers/volunteer-form";
 
 export default function VolunteerPage() {
@@ -22,6 +23,7 @@ export default function VolunteerPage() {
                     </div>
                 </div>
             </section>
+            <VolunteerFooter/>
         </div>
 
     );

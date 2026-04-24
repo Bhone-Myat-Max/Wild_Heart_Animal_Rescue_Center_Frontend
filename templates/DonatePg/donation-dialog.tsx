@@ -33,7 +33,7 @@ import { Spinner } from "@/components/ui/spinner";
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   phone: z.string().min(1, "Phone is required"),
-  file: z.instanceof(File).optional(),
+  file: z.instanceof(File),
   email: z.string().email("Invalid email format"),
   amount: z.number().min(1, "Amount is required"),
   purpose: z.string(),
@@ -110,6 +110,7 @@ export default function DonationDialog() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setLoading(true)
       const data = new FormData()
       data.append("name", values.name)
       data.append("email", values.email)
@@ -126,9 +127,10 @@ export default function DonationDialog() {
       if (values.rescue_mission_id) {
         data.append("rescue_mission_id", values.rescue_mission_id.toString())
       }
-       setLoading(true)
+       
       await createDonation(data)
       toast.success("Donation submitted successfully!");
+      setLoading(false)
       handleOpenChange(false)
     } catch (error) {
       toast.error("Failed to submit the form")

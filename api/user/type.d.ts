@@ -15,3 +15,10 @@
   updated_at?: string;
   
 }
+type UpdatePayload = {
+  name?:string;
+  email?: string;
+  current_password?: string;
+  new_password?: string;
+  new_password_confirmation?: string;
+}

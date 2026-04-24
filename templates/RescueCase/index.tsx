@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Siren, Calendar, User, Phone, ChevronRight, Users, Filter, Clock, MapPin, Eye, Edit, Delete, Trash2, Trash, ShieldAlert } from 'lucide-react'
-import { showDetail } from './action'
+import { deleteRescueCase, showDetail } from './action'
 import UserCom from './user'
 import user from '@/api/user'
 import { Button } from '@/components/ui/button'
@@ -49,6 +49,17 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
   const [detailOpen, setDetailOpen] = useState(false)
   const [selectedRescue, setSelectedRescue] = useState<RescueCase | null>(null)
 
+  const completedCount = rescueCaseRes.filter(
+    (item) => item.case_status === "Completed"
+  ).length
+
+  const inProgressCount = rescueCaseRes.filter(
+    (item) => item.case_status === "In Progress"
+  ).length
+
+  const pendingCount = rescueCaseRes.filter(
+    (item) => item.case_status === "Pending"
+  ).length
   const openViewDialog = (rescue: RescueCase) => {
     setSelectedRescue(rescue)
     setDetailOpen(true)
@@ -133,7 +144,7 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
               <DropdownMenuSeparator />
 
               {/* 🗑 DELETE */}
-              <DropdownMenuItem variant="destructive">
+              <DropdownMenuItem onClick={()=>deleteRescueCase(rescue.id)} variant="destructive">
                 {/* <Trash2/> Delete */}<Trash />Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -194,23 +205,17 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
   return (
     <div className='p-4 md:p-8'>
 
-      <div className='flex bg-gray-50' >
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 mb-1">
-            {/* <div className="p-1.5 bg-orange-600 rounded-lg text-white shadow-lg shadow-orange-200">
-              <ShieldAlert size={18} />
-            </div> */}
-            <h1 className="text-3xl font-black text-black  ml-3">Pending Requests</h1>
-          </div>
-          <p className="text-sm text-slate-700 font-medium ml-3">Urgent cases requiring immediate team assignment</p>
+      {/* <div className='flex justify-between w-full bg-gray-50' > */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Pending Reports</h2>
+          <p className="text-gray-500 text-sm mt-1">Review and approve new volunteer applications.</p>
         </div>
-        {/* {pending_rescue.length > 0 && (
-          <div className="px-4 py-1.5 bg-white border border-slate-100 text-orange-600 text-[11px] font-black rounded-full uppercase tracking-widest shadow-sm flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse" />
-            {pending_rescue.length} Active Requests
-          </div>
-        )} */}
+        <div className="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full uppercase tracking-wider">
+          {pendingCount} Pending
+        </div>
       </div>
+      {/* </div> */}
       <div>
         <div className="max-w-7xl  py-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -274,7 +279,7 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
         </div>
         {pending_rescue.length === 0 && (
           <div className='w-full mb-5'>
-            
+
 
             <div className="col-span-full py-20 flex flex-col items-center justify-center bg-white border-2  border-slate-200 rounded-3xl text-slate-700 w-full">
               <Siren size={48} className="mb-4 " />
@@ -306,7 +311,19 @@ export default function RescueList({ rescueCaseRes, userRes }: RescuelistProp) {
       </div>
 
       <div>
-        <DataTable columns={columns} data={rescueCaseRes} />
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Rescue Cases</h2>
+            <p className="text-gray-500 text-sm mt-1">Review and approve new volunteer applications.</p>
+          </div>
+          <div className="px-3 py-1 bg-amber-100  text-xs font-bold rounded-full uppercase tracking-wider">
+            {rescueCaseRes.length} List
+          </div>
+        </div>
+
+        <div>
+          <DataTable columns={columns} data={rescueCaseRes} />
+        </div>
       </div>
 
     </div>

@@ -1,8 +1,10 @@
 "use client";
 import { useState, useMemo } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
-import { Mail, Phone, Edit2, Eye, Search, Users } from "lucide-react";
+import { Mail, Phone, Edit2, Eye, Search, Users, Send } from "lucide-react";
 import ViewUserDialog from "./View";
+import CreateUserDialog from "./userDialog";
+import { Button } from "@/components/ui/button";
 
 // Types remain the same...
 type AvailabilityStatus = 'Free' | 'On Mission' | 'Off Duty';
@@ -22,11 +24,16 @@ export default function UserTemplate({ User }: UserProp) {
     // Inside UserTemplate.tsx
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isViewOpen, setIsViewOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
 
     const handleViewUser = (user: User) => {
         setSelectedUser(user);
         setIsViewOpen(true);
     };
+    const handleCreateUser = () => {
+        setIsCreateOpen(true);
+    };
+    
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState<AvailabilityStatus | "All">("All");
 
@@ -87,7 +94,8 @@ export default function UserTemplate({ User }: UserProp) {
                     </div>
                 </div>
 
-                <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                <div className="flex justify-between">
+                    <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
                     {["All", "Free", "On Mission", "Off Duty"].map((status) => (
                         <button
                             key={status}
@@ -100,6 +108,8 @@ export default function UserTemplate({ User }: UserProp) {
                             {status}
                         </button>
                     ))}
+                </div>
+                <Button className="bg-orange-600 hover:bg-orange-700" onClick={handleCreateUser}>+ New Staff</Button>
                 </div>
             </div>
 
@@ -130,7 +140,7 @@ export default function UserTemplate({ User }: UserProp) {
                             {/* Card Content ... */}
                             <div className="flex justify-between items-start mb-6">
                                 <div className="relative">
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xl font-bold shadow-inner">
+                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-700 flex items-center justify-center text-white text-xl font-bold shadow-inner">
                                         {user.name.charAt(0)}
                                     </div>
                                     <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${user.availability_status === 'Free' ? 'bg-green-500' :
@@ -164,7 +174,7 @@ export default function UserTemplate({ User }: UserProp) {
                                     <Eye className="w-4 h-4" /> View
                                 </button>
                                 <button className="px-3 bg-slate-50 text-slate-400 py-2.5 rounded-xl hover:bg-slate-100 transition-colors border border-slate-100">
-                                    <Edit2 className="w-4 h-4" />
+                                    <Send className="w-4 h-4" />
                                 </button>
                             </div>
                         </motion.div>
@@ -183,6 +193,10 @@ export default function UserTemplate({ User }: UserProp) {
                 open={isViewOpen}
                 onClose={() => setIsViewOpen(false)}
                 user={selectedUser}
+            />
+            <CreateUserDialog
+                open={isCreateOpen}
+                onClose={() => setIsCreateOpen(false)}
             />
         </div>
     );

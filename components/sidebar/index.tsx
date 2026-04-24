@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { PawPrint } from 'lucide-react';
+import { PawPrint, Settings2 } from 'lucide-react';
 import {
   LayoutDashboard,
   Users,
@@ -29,6 +29,7 @@ const items = [
   { title: "Donation", url: "/donationA", icon: HandCoins },
   // { title: "Event", url: "/calendar", icon: CalendarDays },
   { title: "User", url: "/user", icon: UserCog },
+  { title: "Setting", url: "/profileSetting", icon: Settings2 },
 
 ]
 
